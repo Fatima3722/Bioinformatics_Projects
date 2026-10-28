@@ -1,47 +1,29 @@
-# Bacterial-Growth-Visualization
+# OD600 visualisation
 
-This project demonstrates how to read tabular data from a CSV file representing bacterial growth measurements and generate a line plot visualizing the growth curves of different bacterial strains over time. The plot is created using Python with the `pandas` library for data manipulation, and `matplotlib` with `seaborn` for plotting.
+[Plotting script](plot_growth.py) · [Synthetic example CSV](example_growth.csv)
 
-This is a foundational project ideal for showcasing basic data handling, scripting, and visualization skills relevant to biology and bioinformatics.
+Plots optical-density observations over time. The original experimental CSV was not present in the repository, so its old figure could not be independently reproduced. The maintained example uses explicitly synthetic values, with provenance in the CSV and the plot title. It must not be presented as an experimental measurement.
 
-## Technology Stack
+## Run
 
-*   **Language:** Python 3
-*   **Libraries:**
-    *   `pandas`: For reading and structuring the CSV data.
-    *   `matplotlib`: For creating the basic plot structure.
-    *   `seaborn`: For enhancing the plot aesthetics and simplifying multi-line plotting.
+From the repository root, using Python 3.12 and the pinned dependencies:
 
-## Files in this Repository
+```bash
+python -m pip install -r Bacterial-Growth-Visualization/requirements.txt
+python Bacterial-Growth-Visualization/plot_growth.py --example --output Bacterial-Growth-Visualization/examples/synthetic_growth.png
+python -m unittest discover -s Bacterial-Growth-Visualization/tests -v
+```
 
-*   `plot_growth.py`: The Python script that reads the data, generates the plot, and saves it.
-*   `Bacterial_growth_.csv`: The input data file containing time points, strain identifiers, and optical density (OD600) measurements.
-*   `bacterial_growth_plot.png`: The output image file of the generated plot.
-*   `README.md`: This documentation file.
+![Synthetic OD600 plotting example](examples/synthetic_growth.png)
 
-## Data Format (`bacterial_growth.csv`)
+For your own observations:
 
-The input CSV file (`bacterial_growth.csv`) is expected to have the following columns:
+```bash
+python Bacterial-Growth-Visualization/plot_growth.py --input /path/to/your_growth.csv --output outputs/growth.png
+```
 
-1.  `Time_Hours`: Numeric values representing the time in hours at which measurements were taken.
-2.  `Strain`: Character or string values identifying the bacterial strain (e.g., "Strain_A", "Strain_B").
-3.  `OD600`: Numeric values representing the Optical Density at 600nm, a proxy for bacterial concentration.
+The CSV requires `Time_Hours`, `Strain` and `OD600`. Times must be finite and nonnegative, OD600 must be finite, and strain labels must be nonempty. Rows are sorted by time before plotting. Negative OD600 values are allowed because blank-corrected observations can be below zero; the script does not silently clip them.
 
-## Prerequisites
-Before running the script, ensure you have Python 3 installed on your system. You will also need to install the required Python libraries. You can install them using pip:
+If a strain has multiple observations at the same time, provide a nonempty `Replicate` identifier for each distinct series. Each replicate is drawn separately; the script does not silently average duplicates or invent confidence intervals. Duplicate strain/replicate/time rows are rejected. No growth-rate fitting, statistical comparison or interpretation of the synthetic curves is performed.
 
-pip install pandas matplotlib seaborn
-
-## How to Run
-1. Clone or Download:
-Clone this repository: git clone https://github.com/Fatima3722/bacterial-growth-visualization.git (replace your-username and repository name if different)
-Alternatively, download the files (plot_growth.py and bacterial_growth.csv) into a single directory on your computer.
-2. Navigate to the Directory:
-Open your terminal or command prompt and navigate to the directory where you saved the files.
-3. Execute the Script:
-Run the Python script from the terminal:
-python plot_growth.py
-4. View Output:
-The script will generate (or overwrite) an image file named bacterial_growth_plot.png in the same directory. The console will also print a confirmation message: "Plot saved as bacterial_growth_plot.png".
-
-
+Three regression checks cover input validation, ordering, explicit replicates, plot generation and successful/failing command-line runs. The acetylcholinesterase project has its own separate tests.

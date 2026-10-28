@@ -1,0 +1,11 @@
+Time_Hours,Strain,OD600,Data_Source
+0,Example A,0.05,synthetic demonstration
+2,Example A,0.09,synthetic demonstration
+4,Example A,0.24,synthetic demonstration
+6,Example A,0.55,synthetic demonstration
+8,Example A,0.76,synthetic demonstration
+0,Example B,0.05,synthetic demonstration
+2,Example B,0.07,synthetic demonstration
+4,Example B,0.15,synthetic demonstration
+6,Example B,0.31,synthetic demonstration
+8,Example B,0.48,synthetic demonstration
