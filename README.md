@@ -1,5 +1,7 @@
 # Bioinformatics projects
 
+**[About my research interests and selected computational work](PORTFOLIO.md)**
+
 Educational computational analyses with explicit inputs, reproducible commands and documented limitations.
 
 | Project | Scope |
